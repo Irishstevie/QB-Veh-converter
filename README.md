@@ -25,6 +25,8 @@ This script is provided under the [MIT License](LICENSE).
 
 Please note that this script assumes specific data structures and paths. Make sure to adapt it to your project's needs before use.
 
+  You can Find this at Line 5 & 96
+
 For any questions or issues, feel free to open an issue or contact the repository owner.
 
 Happy coding!
