@@ -4,5 +4,10 @@ game 'gta5'
 description 'Vehicle Converter'
 version '1.0.0'
 
--- Specify the script file
-server_script 'convert.lua'
+shared_scripts {
+  'config.lua'
+}
+
+server_scripts {
+  'server/main.lua'
+}

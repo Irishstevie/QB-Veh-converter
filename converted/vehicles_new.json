@@ -1,0 +1,10 @@
+{
+{
+        ['model'] = 'asbo',
+        ['name'] = 'Asbo',
+        ['brand'] = 'Maxwell',
+        ['price'] = 4000,
+        ['categoryLabel'] = 'Compacts',
+        ['shop'] = 'pdm'
+    },
+}
