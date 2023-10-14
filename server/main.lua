@@ -22,14 +22,8 @@ end
 -- Generate the JSON object for each vehicle data
 local function JsonifyVehicle(vehData)
     local model, name, brand, price, categoryLabel, shop = vehData.model, vehData.name, vehData.brand, vehData.price, vehData.categoryLabel, vehData.shop
-    local jsonifiedVehicle =([[{
-        ['model'] = '%s',
-        ['name'] = '%s',
-        ['brand'] = '%s',
-        ['price'] = %s,
-        ['categoryLabel'] = '%s',
-        ['shop'] = '%s'
-    },]]):format(model, name, brand, price, categoryLabel, shop)
+    local jsonifiedVehicle = string.format("{['model'] = '%s', ['name'] = '%s', ['brand'] = '%s', ['price'] = %d, ['categoryLabel'] = '%s', ['shop'] = '%s'},",
+        model, name, brand, price, categoryLabel, shop)
 
     return jsonifiedVehicle
 end
@@ -56,7 +50,7 @@ for model, oldData in pairs(oldVehicles) do
             ['brand'] = oldData['brand'],
             ['price'] = oldData['price'],
             ['categoryLabel'] = oldData['categoryLabel'] or 'Other', -- Default to 'Other' if categoryLabel is nil
-            ['shop'] = 'pdm', -- Assuming you want to set the shop to 'pdm'
+            ['shop'] = oldData['shop'], -- Assuming you want to set the shop to 'pdm'
         }
         table.insert(newVehicles, newData)
         insertedModels[model] = true -- Mark the model as inserted
@@ -78,26 +72,65 @@ table.sort(newVehicles, function(a, b)
     end
 end)
 
--- Create a JSON string with each vehicle in the desired format
+-- Create a JSON string with each vehicle in the desired format with aligned columns
 local jsonVehicles = "{\n"
-local prevCategoryLabel = nil
+
+local maxModelLength = 0
+local maxNameLength = 0
+local maxBrandLength = 0
+local maxPriceLength = 0
+local maxCategoryLength = 0
+local maxShopLength = 0
+
+-- Sort the vehicles first by 'shop', and then by 'categoryLabel'
+table.sort(newVehicles, function(a, b)
+    local shopA = tostring(a.shop)
+    local shopB = tostring(b.shop)
+    local categoryA = tostring(a.categoryLabel)
+    local categoryB = tostring(b.categoryLabel)
+
+    if shopA == shopB then
+        return categoryA < categoryB
+    else
+        return shopA < shopB
+    end
+end)
+
+for _, vehicleData in ipairs(newVehicles) do
+    maxModelLength = math.max(maxModelLength, #vehicleData.model)
+    maxNameLength = math.max(maxNameLength, #vehicleData.name)
+    maxBrandLength = math.max(maxBrandLength, #vehicleData.brand)
+    maxPriceLength = math.max(maxPriceLength, #tostring(vehicleData.price))
+    maxCategoryLength = math.max(maxCategoryLength, #vehicleData.categoryLabel)
+    maxShopLength = math.max(maxShopLength, #tostring(vehicleData.shop))
+end
 
 for i, vehicleData in ipairs(newVehicles) do
-    if prevCategoryLabel and prevCategoryLabel ~= vehicleData.categoryLabel then
-        jsonVehicles = jsonVehicles .. "\n"
-    end
+    jsonVehicles = jsonVehicles .. "    {"
 
-    jsonVehicles = jsonVehicles .. JsonifyVehicle(vehicleData)
+    local modelSpaces = string.rep(" ", maxModelLength - #vehicleData.model)
+    local nameSpaces = string.rep(" ", maxNameLength - #vehicleData.name)
+    local brandSpaces = string.rep(" ", maxBrandLength - #vehicleData.brand)
+    local priceSpaces = string.rep(" ", maxPriceLength - #tostring(vehicleData.price))
+    local categorySpaces = string.rep(" ", maxCategoryLength - #vehicleData.categoryLabel)
+    local shopSpaces = string.rep(" ", maxShopLength - #tostring(vehicleData.shop))
 
-    prevCategoryLabel = vehicleData.categoryLabel
+    jsonVehicles = jsonVehicles .. string.format("['model'] = '%s',%s", vehicleData.model, modelSpaces)
+    jsonVehicles = jsonVehicles .. string.format("['name'] = '%s',%s", vehicleData.name, nameSpaces)
+    jsonVehicles = jsonVehicles .. string.format("['brand'] = '%s',%s", vehicleData.brand, brandSpaces)
+    jsonVehicles = jsonVehicles .. string.format("['price'] = %d,%s", vehicleData.price, priceSpaces)
+    jsonVehicles = jsonVehicles .. string.format("['categoryLabel'] = '%s',%s", vehicleData.categoryLabel, categorySpaces)
+    jsonVehicles = jsonVehicles .. string.format("['shop'] = '%s'", vehicleData.shop, shopSpaces)
 
     if i < #newVehicles then
-        jsonVehicles = jsonVehicles .. "\n"
+        jsonVehicles = jsonVehicles .. "},\n"
+    else
+        jsonVehicles = jsonVehicles .. "}\n"
     end
 end
-jsonVehicles = jsonVehicles .. "\n}"
+jsonVehicles = jsonVehicles .. "}"
 
--- Save the new data to a JSON file (vehicles_new.json)
+-- Save the new data to a JSON file (vehicles_new.json) with aligned columns
 local filePath = ('%s\\converted\\vehicles_new.json'):format(Config.fullPathToResource)
 local file = io.open(filePath, 'w')
 
