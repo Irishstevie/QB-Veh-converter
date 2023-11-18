@@ -1,4 +1,6 @@
 # QB-Veh-converter
+V1.2 - {WIP}
+V1 - working 
 
 This repository contains a Lua script for converting and processing vehicle data. The script performs the following tasks:
 
