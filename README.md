@@ -28,3 +28,6 @@ This script is provided under the [MIT License](LICENSE).
 For any questions or issues, feel free to open an issue or contact the repository owner.
 
 Happy coding!
+
+
+<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Grab Me a coffee ', '#29abe0', 'A0A7Q5XD');kofiwidget2.draw();</script> 
