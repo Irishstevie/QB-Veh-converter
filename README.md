@@ -8,8 +8,8 @@ This repository contains a Lua script for converting and processing vehicle data
 2. Removes lines with unwanted comments from the loaded data.
 3. Converts the old data into a new format and organizes it.
 4. added Total Vehicles Processed and Duplicates Detected
-4. Creates a LUA representation of the new vehicle data.
-5. Saves the new data to a LUA file named `vehicles_new.lua` in converted folder.
+5. Creates a LUA representation of the new vehicle data.
+6. Saves the new data to a LUA file named `vehicles_new.lua` in converted folder.
 
 ## Usage
 
