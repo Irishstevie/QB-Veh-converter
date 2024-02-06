@@ -70,7 +70,7 @@ for _, vehicleData in ipairs(newVehicles) do
     vehiclesDataStr = vehiclesDataStr .. "price = " .. vehicleData.price .. ", "
     vehiclesDataStr = vehiclesDataStr .. "category = '" .. vehicleData.category .. "', "
     vehiclesDataStr = vehiclesDataStr .. "type = '" .. vehicleData.type .. "', "
-    vehiclesDataStr = vehiclesDataStr .. "shop = '" .. vehicleData.shop .. ",' },\n"
+    vehiclesDataStr = vehiclesDataStr .. "shop = '" .. vehicleData.shop .. "' },\n"
 end
 vehiclesDataStr = vehiclesDataStr .. "}\n\nfor i = 1, #Vehicles do\n    QBShared.Vehicles[Vehicles[i].model] = {\n        spawncode = Vehicles[i].model,\n        name = Vehicles[i].name,\n        brand = Vehicles[i].brand,\n        model = Vehicles[i].model,\n        price = Vehicles[i].price,\n        category = Vehicles[i].category,\n        hash = joaat(Vehicles[i].model),\n        type = Vehicles[i].type,\n        shop = Vehicles[i].shop\n    }\nend"
 
