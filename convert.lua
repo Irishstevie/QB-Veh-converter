@@ -30,7 +30,25 @@ for model, oldData in pairs(oldVehicles) do
             vehicleType = 'motorcycles'
         elseif oldData['category'] == 'cycles' then
             vehicleType = 'bike'
+        elseif oldData['category'] == 'boat' then
+            vehicleType = 'boat'
+        elseif oldData['category'] == 'air' then
+            vehicleType = 'airCraft'
         end
+
+        local ShopType = 'pdm'
+        if oldData['shop'] == 'none' then
+            ShopType = 'none'
+        elseif oldData['shop'] == 'other' then
+            ShopType = 'other'
+        elseif oldData['shop'] == '' then
+            ShopType = 'none'
+        elseif oldData['shop'] == 'air' then
+            ShopType = 'air'
+        elseif oldData['shop'] == 'pdm' then
+            ShopType = 'pdm'
+        end
+        
 
         local cleanName = oldData['name']:gsub("'", "")
 
@@ -41,7 +59,7 @@ for model, oldData in pairs(oldVehicles) do
             price = oldData['price'],
             category = oldData['category'] or 'Other',
             type = vehicleType,
-            shop = 'pdm',
+            shop = ShopType,
         }
         table.insert(newVehicles, newData)
 
