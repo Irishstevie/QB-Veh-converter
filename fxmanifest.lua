@@ -2,6 +2,12 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'Vehicle Converter'
-version '1.0.6'
+version '0.0.4'
 
-server_script 'convert.lua'
+shared_scripts {
+  'config.lua'
+}
+
+server_scripts {
+  'server/main.lua'
+}
